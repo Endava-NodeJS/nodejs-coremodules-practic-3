@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-coremodules-practic-3",
+  "version": "1.0.0",
+  "description": "We have to create REST API (CRUD) that allows us to Create, Read, Update and Delete notes from file. Using HTTP core module we have to create a server that will listen to 8080 port.",
+  "main": "index.js",
+  "dependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Endava-NodeJS/nodejs-coremodules-practic-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Endava-NodeJS/nodejs-coremodules-practic-3/issues"
+  },
+  "homepage": "https://github.com/Endava-NodeJS/nodejs-coremodules-practic-3#readme"
+}
