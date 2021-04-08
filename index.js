@@ -1,28 +1,34 @@
-var http = require('http');
+const http = require('http')
+const DB = require('./db');
+const db = new DB('./notes.json');
 
-http.get('http://api.weatherstack.com/current?access_key=a0b5a0610fc1eb8fa3a870a7f8cba8e0&query=Chisinau', (res) => {
-    const { statusCode } = res;
-    const contentType = res.headers['content-type'];
+const host = 'localhost';
+const port = 8080;
 
-    let error;
-    if (error) {
-        console.error(error.message);
-        // Consume response data to free up memory
-        res.resume();
-        return;
+const requestListener = ({method, url}, res) => {
+    const [, smth, id] = url.split('/')
+    switch (smth) {
+        case "notes":
+            if (method === 'GET') {
+                const data = id ? db.get(id): db.get()
+                res.setHeader("Content-Type", "application/json");
+                res.writeHead(200);
+                res.end(JSON.stringify(data));
+            }
+            break
+        default:
+            res.writeHead(200)
+            res.end('RAQ')
+            break;
     }
+}
 
-    res.setEncoding('utf8');
-    let rawData = '';
-    res.on('data', (chunk) => { rawData += chunk; });
-    res.on('end', () => {
-        try {
-            const parsedData = JSON.parse(rawData);
-            console.log(parsedData);
-        } catch (e) {
-            console.error(e.message);
-        }
-    });
-}).on('error', (e) => {
-    console.error(`Got error: ${e.message}`);
+const server = http.createServer(requestListener);
+
+server.listen(port, host, (error) => {
+    if (error) {
+        console.log('RAQ', error)
+    } else {
+        console.log(`Is happening something great on port ${port}...`)
+    }
 })
