@@ -113,10 +113,11 @@ class DB {
   delete(id) {
     if (!id) {
       console.error('[DELETE] Title should be provided.');
+      return null
     } else {
       const notes = this.readSafeFile();
 
-      this.writeSafeFile(notes.filter(({ id: noteId }) => noteId !== id));
+      return this.writeSafeFile(notes.filter(({ id: noteId }) => noteId !== id));
     }
   }
 
@@ -128,7 +129,7 @@ class DB {
    * @returns UpdatedNote | null
    */
   update(note) {
-    if (!note?.title || !note?.content) {
+    if (!note?.title && !note?.content) {
       console.error('[UPDATE] "title" and "content" should be provided.');
     } else {
       const notes = this.readSafeFile();

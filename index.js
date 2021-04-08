@@ -11,17 +11,16 @@ const requestListener = (req, res) => {
     switch (smth) {
         case "notes":
             if (method === 'GET') {
-                const data = id ? db.get(id): db.get()
+                const data = id ? db.get(id) : db.get()
                 res.setHeader("Content-Type", "application/json");
                 res.writeHead(200);
                 res.end(JSON.stringify(data));
-            } else if (method === 'POST'){
+            } else if (method === 'POST') {
                 let data = ''
-                req.on('data', (chunk)=>{
+                req.on('data', (chunk) => {
                     data += chunk
                 })
-                req.on('end', ()=> {
-                    // data += chunk
+                req.on('end', () => {
                     const bodyString = Buffer.from(data).toString('utf-8')
                     const body = JSON.parse(bodyString)
                     const addedNote = db.add(body)
@@ -36,6 +35,39 @@ const requestListener = (req, res) => {
                     }
                 })
 
+            } else if (method === 'PUT') {
+                let data = ''
+                req.on('data', (chunk) => {
+                    data += chunk
+                })
+                req.on('end', () => {
+                    const bodyString = Buffer.from(data).toString('utf-8')
+                    const body = JSON.parse(bodyString)
+                    const addedNote = db.update({id, ...body})
+
+                    console.log({id, ...body});
+
+                    if (addedNote) {
+                        res.statusCode = 200
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify(addedNote))
+                    } else {
+                        res.statusCode = 404
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({message: 'Ups something wrong'}))
+                    }
+                })
+            } else if (method === 'DELETE') {
+                const response = db.delete(id)
+                if (response) {
+                    res.statusCode = 200
+                    res.setHeader("Content-Type", "application/json");
+                    res.end(JSON.stringify(response))
+                } else {
+                    res.statusCode = 404
+                    res.setHeader("Content-Type", "application/json");
+                    res.end(JSON.stringify({message: 'note not found'}))
+                }
             }
 
             break
