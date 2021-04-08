@@ -78,8 +78,10 @@ class DB {
       this.writeSafeFile(updatedDb);
 
       console.log('[ADD] DB successfully updated');
+      return note
     } else {
       console.error(`[ADD] Note with title: "${note.title}" already exists.`);
+      return false
     }
   }
 

@@ -5,7 +5,8 @@ const db = new DB('./notes.json');
 const host = 'localhost';
 const port = 8080;
 
-const requestListener = ({method, url}, res) => {
+const requestListener = (req, res) => {
+    const {method, url} = req
     const [, smth, id] = url.split('/')
     switch (smth) {
         case "notes":
@@ -14,7 +15,29 @@ const requestListener = ({method, url}, res) => {
                 res.setHeader("Content-Type", "application/json");
                 res.writeHead(200);
                 res.end(JSON.stringify(data));
+            } else if (method === 'POST'){
+                let data = ''
+                req.on('data', (chunk)=>{
+                    data += chunk
+                })
+                req.on('end', ()=> {
+                    // data += chunk
+                    const bodyString = Buffer.from(data).toString('utf-8')
+                    const body = JSON.parse(bodyString)
+                    const addedNote = db.add(body)
+                    if (addedNote) {
+                        res.statusCode = 201
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify(addedNote))
+                    } else {
+                        res.statusCode = 500
+                        res.setHeader("Content-Type", "application/json");
+                        res.end(JSON.stringify({message: 'Ups something wrong'}))
+                    }
+                })
+
             }
+
             break
         default:
             res.writeHead(200)
