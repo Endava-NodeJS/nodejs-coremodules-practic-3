@@ -10,11 +10,13 @@ class DB {
   static initDb = async (dbPath) => {
     if(!DB.dbConnection && dbPath) {
       try {
-        DB.dbConnection = await open({
-          url: dbPath,
+        DB.dbConnection = await sqlite.open({
+          filename: dbPath,
           driver: sqlite3.Database,
         })
-  
+
+        DB.dbConnection.exec('CREATE TABLE IF NOT EXISTS todo (title TEXT UNIQUE, content TEXT, id INTEGER NOT NULL PRIMARY KEY)')
+
         return DB.dbConnection
       } catch (e) {
         console.error(e.message)
