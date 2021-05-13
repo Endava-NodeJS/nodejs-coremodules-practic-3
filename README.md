@@ -1,6 +1,6 @@
 ## Welcome to Node.js Workshop Practic Group 3
 
-In this repository we track our workshop practical lesson activity. So on each practical lesson you should to create a new ```practica-{number of lesson}``` folder and place all related content there. If current scope work depends on code from previous lessons, so just copy it and place in the new lesson folder.
+In this repository we track our workshop practical lesson activity. So on each practical lesson you should create a new ```practica-{number of lesson}``` folder and place all related content there. If current scope work depends on code from previous lessons, so just copy it and place in the new lesson folder.
 
 For individual work/experiments please follow the next approach:
 - checkout new branch with your name from master branch with the latest changes.

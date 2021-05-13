@@ -22,7 +22,35 @@ Other endpoints should remain public
 ---
 
 #### Here’s a list of npm packages that could be helpful during the implementation:
- 1) Bcrypt - it will help you to create and compare password hash
- 2) Jsonwebtoken - for JWT generation and validation
- 3) Sequelize - promise-based ORM tool (you can use it with SQLite as well)
+ 1) [Bcrypt](https://www.npmjs.com/package/bcrypt) - it will help you to create and compare password hash
+ 2) [Jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - for JWT generation and validation
+ 3) [Sequelize](https://www.npmjs.com/package/sequelize) - promise-based ORM tool (you can use it with SQLite as well)
+---
+
+### Main flow structure:
+##### Sign-up
+- Sign-up (email, password) (FE => BE)
+- Store user in DB if it doesn’t exist (BE)
+- Success response (BE => FE)
+
+#### Sign-in
+- Sign-in request (browser) (FE => BE)
+- Create JWT with secret (BE => FE)
+- Store the JWT (FE)
+
+#### Each authorized request
+- Authenticated request (browser) (FE => BE)
+- Validate JWT, attach user to req object (BE)
+- Response (BE => FE)
+
+---
+
+#### Useful links:
+- [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+- [JWT](https://jwt.io/introduction)
+- [Express middleware](https://expressjs.com/en/guide/using-middleware.html)
+- [Express middleware usage](https://expressjs.com/en/guide/writing-middleware.html)
+- [Express routing](https://expressjs.com/en/guide/routing.html)
+- [Sequelize Models basics](https://sequelize.org/master/manual/model-basics.html)
+- [Password hash with salt](https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/)
 
