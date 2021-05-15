@@ -1,28 +1,28 @@
 const jwt = require('jsonwebtoken');
-const { secret } = require('../../config/auth.config');
-const db = require("../../models");
+const {secret} = require('../../config/auth.config');
+const db = require('../../models');
 
 const Users = db.users;
 
-module.exports.auth = (req, res, next) => {
-    const { authorization } = req.headers; 
+exports.auth = (req, res, next) => {
+    const {authorization} = req.headers;
 
-    if(authorization){ 
+    if (authorization) {
         const [, token] = authorization.split(' ');
-    
-        if(!token) { 
-           next();
-           return;
+
+        if (!token) {
+            next();
+            return;
         }
 
         return jwt.verify(token, secret, async (err, {username}) => {
-            if(err || !username) {
+            if (err || !username) {
                 next();
                 return;
-            };
+            }
 
             try {
-                const user = await Users.findOne({ where: { username } });
+                const user = await Users.findOne({where: {username}});
           
                 if (!user) {
                  next();
@@ -40,13 +40,13 @@ module.exports.auth = (req, res, next) => {
           });
     }
     next();
-} 
-
-module.exports.checkAuthorization = (req, res, next) => {
-if(req.user){
-    next();
-    return;
 }
-res.status(401).end('Unauthorized');
 
+exports.checkAuthorization = (req, res, next) => {
+    if (req.user) {
+        next();
+        return;
+    }
+
+    res.status(401).end('Unauthorized');
 }
