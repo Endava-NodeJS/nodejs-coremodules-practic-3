@@ -5,7 +5,7 @@ const authController = require('./controllers/auth');
 const cors = require('cors');
 const {auth} = require('./services/auth/middleware');
 const notesController = require('./controllers/notes');
-
+const userController = require('./controllers/user');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -22,6 +22,7 @@ db.sequelize.sync({ force: false }).then(async () => {
 
 authController(app);
 notesController(app);
+userController(app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

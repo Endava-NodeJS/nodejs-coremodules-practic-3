@@ -61,6 +61,12 @@ exports.signIn = async (req, res) => {
         console.error(e.message);
     }
 
+    if (!user) {
+        res.status(404);
+        res.end(`User not found`);
+        return;
+    }
+
     try {
         const isPasswordsMatch = bcrypt.compareSync(password, user.password);
 
