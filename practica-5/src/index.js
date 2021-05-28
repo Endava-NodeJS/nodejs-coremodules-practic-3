@@ -13,6 +13,7 @@ const app = express();
 app.use(cors({origin: `http://localhost:${PORT}`}));
 app.use(auth);
 app.use(bodyParser.json());
+app.use("/public/user-avatar",express.static('public/user-avatar'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

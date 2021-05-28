@@ -8,7 +8,7 @@ const Users = db.users;
 exports.avatarUpload = async (req, res) => {
     const {
         file: {mimetype, size, buffer},
-        user: {userName},
+        user: {username, id},
     } = req;
 
     const {height, width} = sizeOf(buffer);
@@ -35,12 +35,19 @@ exports.avatarUpload = async (req, res) => {
         return;
     }
 
-    const hash = bcrypt.hashSync(userName, 8);
-
     try {
-        const newImage = await imageScale(buffer, `${hash}.jpeg`);
+        const hash = Date.now()
+        const imagePath = await imageScale(buffer, `${hash}.jpeg`);
+
+        await Users.update({avatar: imagePath}, {where: {id}, returning: true}); 
+
+        const user = await Users.findOne({ where: {id} });
+
+        res.status(200).json(user);
+        
 
     } catch (error) {
+        console.trace(error)
         res.status(500);
         res.end('Internal server error!')
     }
