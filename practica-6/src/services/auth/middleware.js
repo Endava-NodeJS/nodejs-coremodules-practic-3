@@ -15,7 +15,7 @@ exports.auth = (req, res, next) => {
             return;
         }
 
-        return jwt.verify(token, secret, async (err, {username}) => {
+        return jwt.verify(token, secret, async (err, {username} = {}) => {
             if (err || !username) {
                 next();
                 return;
